@@ -1,7 +1,7 @@
 const EDDSA = require("elliptic").eddsa;
 const eddsa = new EDDSA("ed25519");
 const uuidV1 = require('uuid/v1');  // version 1 use timestamp to generate unique ids, although in production one shouldn't use this
-
+const SHA256 = require('crypto-js/sha256');
 
 
 class ChainUtil {

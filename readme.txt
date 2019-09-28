@@ -33,9 +33,9 @@ POSTman (wallet and transaction-pool)
 POST localhost:3001/mine
 Body > RAW > JSON :
 {
- “to”:”rand-address”,
- “amount”:10,
- “type”: “TRANSACTION”
+ "to":"rand-address",
+ "amount":10,
+ "type":"TRANSACTION"
 }
 
 
