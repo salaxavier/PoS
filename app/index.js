@@ -9,6 +9,9 @@ const HTTP_PORT = process.env.HTTP_PORT || 3001;
 const P2pServer = require('./p2p-server.js');
 const p2pserver = new P2pServer(blockchain);                                    // passing blockchain as a dependency
 
+const Wallet = require('../wallet');
+const TransactionPool = require('../wallet/transaction-pool');
+
 //create a new app
 const app  = express();
 
@@ -33,6 +36,33 @@ app.post('/mine',(req,res)=>{
     res.redirect('/blocks');
     p2pserver.syncChain();
 });
+
+
+// api to view transaction in the transaction pool
+app.get('/transactions',(req,res)=>{
+  res.json(transactionPool.transactions);
+});
+
+
+//api to create transactions
+app.post("/transact", (req, res) => {
+  const { to, amount, type } = req.body;
+  const transaction = wallet.createTransaction(
+     to, amount, type, blockchain, transactionPool
+  );
+res.redirect("/transactions");
+});
+
+
+
+// create a new wallet
+const wallet = new Wallet(Date.now().toString());  // Date.now() is used create a random string for secret
+// create a new transaction pool which will be later decentralized and synchronized using the peer to peer server
+const transactionPool = new TransactionPool();
+
+
+
+
 
 // app server configurations
 app.listen(HTTP_PORT,()=>{
